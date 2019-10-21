@@ -6,6 +6,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //*******************************************************************************
 // Includes
 //*******************************************************************************
@@ -224,5 +228,9 @@ void SpiSimple_SetTxAlmEmptyThreshold(const uint32_t baseAddr, const uint32_t th
  * @param threshold		Threshold to generate an almost full condition at
  */
 void SpiSimple_SetRxAlmFullThreshold(const uint32_t baseAddr, const uint32_t threshold);
+
+#ifdef __cplusplus
+}
+#endif
 
 
