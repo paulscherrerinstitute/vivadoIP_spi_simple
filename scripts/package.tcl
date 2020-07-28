@@ -107,7 +107,7 @@ gui_add_parameter
 ###############################################################
 set TargetDir ".."
 #											Edit  	Synth	
-package_ip $TargetDir 						true 	true
+package_ip $TargetDir 						false 	true
 
 
 
