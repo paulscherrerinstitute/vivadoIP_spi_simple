@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------
 --  Copyright (c) 2019 by Paul Scherrer Institute, Switzerland
 --  All rights reserved.
---  Authors: Oliver Bruendler
+--  Authors: Oliver Bruendler, Radoslaw Rybaniec
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -74,7 +74,8 @@ architecture sim of top_tb is
 	signal spi_cs_n		: std_logic_vector(SlaveCnt_c-1 downto 0)		:= (others => '0');
 	signal spi_mosi		: std_logic							:= '0';
 	signal spi_miso		: std_logic							:= '0';
-	signal irq			: std_logic							:= '0';
+	signal spi_le		: std_logic_vector(SlaveCnt_c-1 downto 0)		:= (others => '0');
+    signal irq			: std_logic							:= '0';
 
 begin
 
@@ -103,6 +104,7 @@ begin
 			spi_cs_n			=> spi_cs_n,
 			spi_mosi			=> spi_mosi,
 			spi_miso 			=> spi_miso,
+            spi_le              => spi_le,
 			irq					=> irq,
 			-- Axi Slave Bus Interface
 			s00_axi_aclk    	=> aclk,
@@ -383,10 +385,11 @@ begin
 						ShiftRegRx_v := ShiftRegRx_v(TransWidth_c-2 downto 0) & spi_mosi;
 					end if;
 				end loop;
-				
+                StdlvCompareStdlv(ZerosVector(SlaveCnt_c), spi_le, "LE is not low");
 				-- wait fir CS going high
 				wait until spi_cs_n = OnesVector(SlaveCnt_c);
-				StdlvCompareStdlv (ExpLatch_v, ShiftRegRx_v, "SPI slave received wrong data");
+				StdlvCompareStdlv(to_uslv(2**SlaveNr,SlaveCnt_c), spi_le, "LE not high after transmission");
+                StdlvCompareStdlv (ExpLatch_v, ShiftRegRx_v, "SPI slave received wrong data");
 			else
 				wait until rising_edge(aclk);
 			end if;
