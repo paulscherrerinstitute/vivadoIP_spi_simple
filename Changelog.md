@@ -1,3 +1,7 @@
+## 1.2.2
+* Bugfixes
+  * Added AXI readback of R/W registers
+
 ## 1.2.1
 * Bugfixes
   * Made driver C++ tolerant

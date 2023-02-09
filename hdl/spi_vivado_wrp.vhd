@@ -196,10 +196,16 @@ begin
    
 	-----------------------------------------------------------------------------
 	-- Implementation
-	----------------------------------------------------------------------------- 
+	-----------------------------------------------------------------------------
+	-- register readback 
+  reg_rdata(RegIdx_SlaveNr_c)(log2ceil(SlaveCnt_g)-1 downto 0)        <= reg_wdata(RegIdx_SlaveNr_c)(log2ceil(SlaveCnt_g)-1 downto 0);
+  reg_rdata(RegIdx_StoreRx_c)(0)                                      <= reg_wdata(RegIdx_StoreRx_c)(0);
+  reg_rdata(RegIdx_TxAlmEmptyLevel_c)(log2ceil(FifoDepth_g) downto 0) <= reg_wdata(RegIdx_TxAlmEmptyLevel_c)(log2ceil(FifoDepth_g) downto 0);
+  reg_rdata(RegIdx_RxAlmFullLevel_c)(log2ceil(FifoDepth_g) downto 0)  <= reg_wdata(RegIdx_RxAlmFullLevel_c)(log2ceil(FifoDepth_g) downto 0);
+  reg_rdata(RegIdx_IrqEna_c)(IrqSize_c-1 downto 0)                    <= reg_wdata(RegIdx_IrqEna_c)(IrqSize_c-1 downto 0);
  	
 	i_spi : entity work.spi_simple
-		generic map (
+		generic map ( 
 			ClockDivider_g	=> ClockDivider_g,
 			TransWidth_g	=> TransWidth_g,				
 			CsHighCycles_g	=> CsHighCycles_g,						
