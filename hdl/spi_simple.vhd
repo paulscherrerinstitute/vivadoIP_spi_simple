@@ -219,21 +219,21 @@ begin
 	
 	i_tx_fifo : entity work.psi_common_sync_fifo
 		generic map (
-			Width_g			=> CmdIn'length,
-			Depth_g			=> FifoDepth_g,
-			RamStyle_g		=> "auto",
-			RamBehavior_g	=> "RBW"
+			width_g			=> CmdIn'length,
+			depth_g			=> FifoDepth_g,
+			ram_style_g		=> "auto",
+			ram_behavior_g	=> "RBW"
 		)
 		port map (
-			Clk			=> Clk,
-			Rst			=> Rst,
-			InData		=> CmdIn,
-			InVld		=> TxWrite,
-			OutData		=> CmdOut,
-			OutRdy		=> r.SpiStart,
-			Empty		=> TxEmpty,
-			Full		=> TxFull,
-			OutLevel	=> TxLevel_I
+			clk_i			=> Clk,
+			rst_i			=> Rst,
+			dat_i		=> CmdIn,
+			vld_i		=> TxWrite,
+			dat_o		=> CmdOut,
+			rdy_i		=> r.SpiStart,
+			empty_o		=> TxEmpty,
+			full_o		=> TxFull,
+			out_level_o	=> TxLevel_I
 		);
 		
 	CmdSlave <= CmdOut(Cmd_Slave);
@@ -244,47 +244,47 @@ begin
 	-- *** Response FIFO ***
 	i_resp_fifo : entity work.psi_common_sync_fifo
 		generic map (
-			Width_g			=> TransWidth_g,
-			Depth_g			=> FifoDepth_g,
-			RamStyle_g		=> "auto",
-			RamBehavior_g	=> "RBW"
+			width_g			=> TransWidth_g,
+			depth_g			=> FifoDepth_g,
+			ram_style_g		=> "auto",
+			ram_behavior_g	=> "RBW"
 		)
 		port map (
-			Clk			=> Clk,
-			Rst			=> Rst,
-			InData		=> SpiRxData,
-			InVld		=> r.RxWrite,
-			OutData		=> RxData,
-			OutRdy		=> RxAck,
-			Full		=> RxFull,
-			Empty		=> RxEmpty,
-			InLevel		=> RxLevel_I
+			clk_i			=> Clk,
+			rst_i			=> Rst,
+			dat_i		=> SpiRxData,
+			vld_i		=> r.RxWrite,
+			dat_o		=> RxData,
+			rdy_i		=> RxAck,
+			full_o		=> RxFull,
+			empty_o		=> RxEmpty,
+			in_level_o		=> RxLevel_I
 		);
 	
 	-- *** SPI Interface ***
 	i_spi : entity work.psi_common_spi_master
 		generic map (
-			ClockDivider_g 	=> ClockDivider_g,
-			TransWidth_g	=> TransWidth_g,
-			CsHighCycles_g	=> CsHighCycles_g,
-			SpiCPOL_g		=> SpiCPOL_g,
-			SpiCPHA_g		=> SpiCPHA_g,
-			SlaveCnt_g		=> SlaveCnt_g,
-			LsbFirst_g		=> LsbFirst_g
+			clk_div_g 	=> ClockDivider_g,
+			trans_width_g	=> TransWidth_g,
+			cs_high_cycles_g	=> CsHighCycles_g,
+			spi_cpol_g		=> SpiCPOL_g,
+			spi_cpha_g		=> SpiCPHA_g,
+			slave_cnt_g		=> SlaveCnt_g,
+			lsb_first_g		=> LsbFirst_g
 		)
 		port map (
-			Clk			=> Clk,
-			Rst			=> Rst,
-			Start		=> r.SpiStart,
-			Slave		=> CmdSlave,
-			Busy		=> SpiBusy,
-			Done		=> SpiDone,
-			WrData		=> CmdData,
-			RdData		=> SpiRxData,
-			SpiSck		=> SpiSck,
-			SpiMosi		=> SpiMosi,
-			SpiMiso		=> SpiMiso,
-			SpiCs_n		=> SpiCs_n
+			clk_i			=> Clk,
+			rst_i			=> Rst,
+			start_i		=> r.SpiStart,
+			slave_i		=> CmdSlave,
+			busy_o		=> SpiBusy,
+			done_o		=> SpiDone,
+			dat_i		=> CmdData,
+			dat_o		=> SpiRxData,
+			spi_sck_o		=> SpiSck,
+			spi_mosi_o		=> SpiMosi,
+			spi_miso_i		=> SpiMiso,
+			spi_cs_n_o		=> SpiCs_n
 		);
 	
 	
