@@ -131,11 +131,11 @@ begin
    generic map
    (
       -- Users parameters
-      NumReg_g                             => USER_SLV_NUM_REG,
-      UseMem_g                             => false,
+      num_reg_g                             => USER_SLV_NUM_REG,
+      use_mem_g                             => false,
       -- Parameters of Axi Slave Bus Interface
-      AxiIdWidth_g                         => C_S00_AXI_ID_WIDTH,
-      AxiAddrWidth_g                       => 8
+      axi_id_width_g                         => C_S00_AXI_ID_WIDTH,
+      axi_addr_width_g                       => 8
    )
    port map
    (
