@@ -14,7 +14,7 @@ namespace import -force psi::ip_package::latest::*
 # General Information
 ###############################################################
 set IP_NAME spi_simple
-set IP_VERSION 1.2
+set IP_VERSION 1.3
 set IP_REVISION "auto"
 set IP_LIBRARY PSI
 set IP_DESCIRPTION "Simple SPI master interface"

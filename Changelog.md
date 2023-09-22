@@ -1,3 +1,7 @@
+## 1.3.0
+* Features
+  * Added LE output
+
 ## 1.2.2
 * Bugfixes
   * Added AXI readback of R/W registers

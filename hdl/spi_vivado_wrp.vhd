@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------
 --  Copyright (c) 2019 by Paul Scherrer Institute, Switzerland
 --  All rights reserved.
---  Authors: Oliver Bruendler
+--  Authors: Oliver Bruendler, Radoslaw Rybaniec
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ entity spi_vivado_wrp is
 		spi_cs_n					: out	std_logic_vector(SlaveCnt_g-1 downto 0);
 		spi_mosi					: out 	std_logic;
 		spi_miso 					: in 	std_logic;
-		
+		spi_le	 					: out	std_logic_vector(SlaveCnt_g-1 downto 0);
 		-----------------------------------------------------------------------------
 		-- Misc
 		-----------------------------------------------------------------------------
@@ -248,7 +248,8 @@ begin
 			SpiSck			=> spi_sck,
 			SpiMosi			=> spi_mosi,
 			SpiMiso			=> spi_miso,
-			SpiCs_n			=> spi_cs_n		
+			SpiCs_n			=> spi_cs_n,
+            SpiLe			=> spi_le
 		);
    
 	

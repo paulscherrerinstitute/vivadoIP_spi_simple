@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------
 --  Copyright (c) 2019 by Paul Scherrer Institute, Switzerland
 --  All rights reserved.
---  Authors: Oliver Bruendler
+--  Authors: Oliver Bruendler, Radoslaw Rybaniec
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
@@ -69,7 +69,8 @@ entity spi_simple is
 		SpiSck		: out	std_logic;
 		SpiMosi		: out	std_logic;
 		SpiMiso		: in 	std_logic;
-		SpiCs_n		: out	std_logic_vector(SlaveCnt_g-1 downto 0)		
+		SpiCs_n		: out	std_logic_vector(SlaveCnt_g-1 downto 0);
+        SpiLe		: out	std_logic_vector(SlaveCnt_g-1 downto 0)		
 	);
 end entity;
 		
