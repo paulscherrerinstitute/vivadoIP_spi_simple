@@ -33,7 +33,11 @@ entity spi_simple is
 		SpiCPHA_g		: natural range 0 to 1;				
 		SlaveCnt_g		: positive := 1;					
 		LsbFirst_g		: boolean := false;
-		FifoDepth_g		: positive	:= 256
+		FifoDepth_g		: positive	:= 256;
+		MosiIdleState_g : std_logic := '0';
+	  ReadBitPol_g     : std_logic := '1';        
+    TriStatePol_g    : std_logic := '1'; 
+    SpiDataPos_g     : positive := 3         
 	);
 	port (
 		-- Control Signals
@@ -69,8 +73,9 @@ entity spi_simple is
 		SpiSck		: out	std_logic;
 		SpiMosi		: out	std_logic;
 		SpiMiso		: in 	std_logic;
+    SpiTri    : out std_logic;
 		SpiCs_n		: out	std_logic_vector(SlaveCnt_g-1 downto 0);
-        SpiLe		: out	std_logic_vector(SlaveCnt_g-1 downto 0)		
+    SpiLe		  : out	std_logic_vector(SlaveCnt_g-1 downto 0)		
 	);
 end entity;
 		
@@ -271,7 +276,11 @@ begin
 			spi_cpol_g		=> SpiCPOL_g,
 			spi_cpha_g		=> SpiCPHA_g,
 			slave_cnt_g		=> SlaveCnt_g,
-			lsb_first_g		=> LsbFirst_g
+			lsb_first_g		=> LsbFirst_g,
+			read_bit_pol_g      => ReadBitPol_g,
+      tri_state_pol_g     => TriStatePol_g,
+      spi_data_pos_g      => SpiDataPos_g,
+			mosi_idle_state_g   => MosiIdleState_g
 		)
 		port map (
 			clk_i			=> Clk,
@@ -285,6 +294,7 @@ begin
 			spi_sck_o		=> SpiSck,
 			spi_mosi_o		=> SpiMosi,
 			spi_miso_i		=> SpiMiso,
+      spi_tri_o        => SpiTri,
 			spi_cs_n_o		=> SpiCs_n
 		);
 	

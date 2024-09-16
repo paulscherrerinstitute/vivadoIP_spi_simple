@@ -14,7 +14,7 @@ namespace import -force psi::ip_package::latest::*
 # General Information
 ###############################################################
 set IP_NAME spi_simple
-set IP_VERSION 1.3
+set IP_VERSION 1.4
 set IP_REVISION "auto"
 set IP_LIBRARY PSI
 set IP_DESCIRPTION "Simple SPI master interface"
@@ -96,11 +96,32 @@ gui_add_parameter
 gui_create_parameter "FifoDepth_g" "Depth of RX and TX FIFO"
 gui_add_parameter
 
+gui_create_parameter "MosiIdleState_g" "MOSI signal level in Idle State"
+gui_parameter_set_widget_dropdown {0 1}
+gui_add_parameter
+
+gui_create_parameter "ReadBitPol_g" "Polarity of Read operation in RW Mosi bit"
+gui_parameter_set_widget_dropdown {0 1}
+gui_add_parameter
+
+gui_create_parameter "TriWiresSpi_g" "Enable 3-wires SPI interface"
+gui_parameter_set_widget_checkbox
+gui_add_parameter
+
+gui_create_parameter "TriStatePol_g" "Polarity of tristate signal in case of a 3-Wires SPI"
+gui_parameter_set_widget_dropdown {0 1}
+gui_add_parameter
+
+gui_create_parameter "SpiDataPos_g" "SPI data starting position in data word (necessary for 3-Wires SPI)"
+gui_parameter_set_range 1 32
+gui_add_parameter
+
 ###############################################################
 # Optional Ports
 ###############################################################
 
 #None
+add_port_enablement_condition "spi_tri" "\$TriWiresSpi_g = true"
 
 ###############################################################
 # Package Core

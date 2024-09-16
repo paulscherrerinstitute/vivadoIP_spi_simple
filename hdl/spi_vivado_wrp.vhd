@@ -32,6 +32,11 @@ entity spi_vivado_wrp is
 		SlaveCnt_g		: positive 						:= 1;		-- Number of slaves to support
 		LsbFirst_g		: boolean 						:= false;	-- LSB or MSB first transmission	
 		FifoDepth_g		: positive						:= 256;		-- Depth of RX/TX FIFOs
+		TriWiresSpi_g : boolean 						:= false;	-- LSB or MSB first transmission	
+    MosiIdleState_g : std_logic := '0';           -- MOSI signal level in Idle State
+    ReadBitPol_g     : std_logic := '1';        -- Polarity of Read operation in RW Mosi bit
+    TriStatePol_g    : std_logic := '1';        -- Polarity of tristate signal in case of a 3-Wires SPI
+    SpiDataPos_g     : positive := 8;            -- SPI data starting position in data word (necessary for 3-Wires SPI)
 		
 		-- AXI Parameters
 		C_S00_AXI_ID_WIDTH          : integer := 1					-- Width of ID for for write address, write data, read address and read data
@@ -45,6 +50,7 @@ entity spi_vivado_wrp is
 		spi_cs_n					: out	std_logic_vector(SlaveCnt_g-1 downto 0);
 		spi_mosi					: out 	std_logic;
 		spi_miso 					: in 	std_logic;
+		spi_tri 					: out	std_logic;
 		spi_le	 					: out	std_logic_vector(SlaveCnt_g-1 downto 0);
 		-----------------------------------------------------------------------------
 		-- Misc
@@ -213,6 +219,10 @@ begin
 			SpiCPHA_g		=> SpiCPHA_g,
 			SlaveCnt_g		=> SlaveCnt_g,				
 			LsbFirst_g		=> LsbFirst_g,
+			MosiIdleState_g => MosiIdleState_g,
+      ReadBitPol_g  => ReadBitPol_g,
+      TriStatePol_g => TriStatePol_g,
+      SpiDataPos_g  => SpiDataPos_g,
 			FifoDepth_g		=> FifoDepth_g
 		)
 		port map (
@@ -238,7 +248,7 @@ begin
 			
 			-- Fifo Interface
 			RxData			=> reg_rdata(RegIdx_Data_c)(TransWidth_g-1 downto 0),
-			RxAck			=> reg_rd(RegIdx_Data_c),
+			RxAck			  => reg_rd(RegIdx_Data_c),
 			RxLevel			=> reg_rdata(RegIdx_RxLevel_c)(log2ceil(FifoDepth_g) downto 0),
 			TxData			=> reg_wdata(RegIdx_Data_c)(TransWidth_g-1 downto 0),
 			TxWrite			=> reg_wr(RegIdx_Data_c),
@@ -248,8 +258,9 @@ begin
 			SpiSck			=> spi_sck,
 			SpiMosi			=> spi_mosi,
 			SpiMiso			=> spi_miso,
+			SpiTri			=> spi_tri,
 			SpiCs_n			=> spi_cs_n,
-            SpiLe			=> spi_le
+      SpiLe			  => spi_le
 		);
    
 	
